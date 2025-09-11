@@ -1,0 +1,93 @@
+"use client";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+export default function BackgroundEffect() {
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const shapes = containerRef.current?.querySelectorAll(".shape-parallax");
+        if (!shapes) return;
+
+        shapes.forEach((shape) => {
+            const el = shape as HTMLElement;
+            const depth = parseFloat(el.dataset.depth || "0.2"); // default slow
+            gsap.to(el, {
+                y: () => `+=${window.innerHeight * depth}`, // move relative to scroll
+                ease: "none",
+                scrollTrigger: {
+                    trigger: document.body,
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: true, // sync with scroll
+                },
+            });
+        });
+
+
+    }, []);
+
+    return (
+        <div ref={containerRef} className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden" style={{ zIndex: 0, background: "linear-gradient(135deg, #0a1a2f, #102a44)" }}>
+            {/* Base Grid */}
+            <svg
+                className="absolute inset-0 w-full h-full"
+            >
+                <defs>
+                    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                        <path
+                            d="M 40 0 L 0 0 0 40"
+                            fill="none"
+                            stroke="#274bc5ff"
+                            strokeWidth="1"
+                            opacity="0.08"
+                        />
+                    </pattern>
+                </defs>
+                {/* <defs>
+                    <pattern
+                        id="grid"
+                        width="40"
+                        height="40"
+                        patternUnits="userSpaceOnUse"
+                    >
+                        <path
+                            d="M 40 0 L 0 0 0 40"
+                            fill="none"
+                            stroke="#1E40AF"
+                            strokeWidth="1"
+                            opacity="0.15"
+                        />
+                    </pattern>
+                </defs> */}
+                <rect width="100%" height="100%" fill="url(#grid)" />
+            </svg>
+
+            {/* Shapes with different depths */}
+            <div
+                className="shape-parallax absolute top-[4%] left-[15%] w-[300px] h-[300px] bg-blue-500/20 rounded-full blur-3xl"
+                data-depth="4"
+            ></div>
+            <div
+                className="shape-parallax absolute top-[60%] left-[70%] w-[250px] h-[250px] bg-cyan-400/20 rounded-full blur-3xl"
+                data-depth="2.5"
+            ></div>
+            <div
+                className="shape-parallax absolute top-[30%] left-[50%] w-[200px] h-[200px] bg-purple-500/15 rounded-full blur-3xl"
+                data-depth="3.5"
+            ></div>
+            <div
+                className="shape-parallax absolute top-[80%] left-[20%] w-[150px] h-[150px] bg-pink-400/20 rounded-full blur-2xl"
+                data-depth="1.5"
+            ></div>
+            <div
+                className="shape-parallax absolute top-[40%] left-[80%] w-[180px] h-[180px] bg-indigo-400/30 rounded-full blur-2xl"
+                data-depth="3"
+            ></div>
+
+        </div>
+    );
+}
