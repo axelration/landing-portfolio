@@ -14,3 +14,6 @@ This project is intended solely for showcasing my work and skills as a personal 
 - HTML
 
 Feel free to explore the code, but note that this project is for personal use only.
+
+## Installation
+Just run ```npm install``` and then ```npm run dev```. It will run on ```localhost:3000```.
