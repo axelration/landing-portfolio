@@ -32,7 +32,7 @@ export default function HeroSection() {
           className="text-6xl md:text-8xl font-light text-white mb-4 font-['Inter']"
           style={{ fontWeight: 300 }}
         >
-          Raxel Kamisik
+          Axelration
         </h1>
         <p
           ref={subtitleRef}

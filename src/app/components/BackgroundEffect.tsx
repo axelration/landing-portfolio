@@ -68,20 +68,20 @@ export default function BackgroundEffect() {
 
             {/* Shapes with different depths */}
             <div
-                className="shape-parallax absolute top-[4%] left-[15%] w-[300px] h-[300px] bg-blue-500/20 rounded-full blur-3xl"
+                className="shape-parallax absolute top-[5%] left-[20%] w-[300px] h-[300px] bg-blue-500/20 rounded-full blur-3xl"
                 data-depth="4"
             ></div>
             <div
-                className="shape-parallax absolute top-[60%] left-[70%] w-[250px] h-[250px] bg-cyan-400/20 rounded-full blur-3xl"
+                className="shape-parallax absolute top-[20%] left-[70%] w-[250px] h-[250px] bg-cyan-400/20 rounded-full blur-3xl"
                 data-depth="2.5"
             ></div>
             <div
-                className="shape-parallax absolute top-[30%] left-[50%] w-[200px] h-[200px] bg-purple-500/15 rounded-full blur-3xl"
+                className="shape-parallax absolute top-[25%] left-[50%] w-[200px] h-[200px] bg-purple-500/15 rounded-full blur-3xl"
                 data-depth="3.5"
             ></div>
             <div
-                className="shape-parallax absolute top-[80%] left-[20%] w-[150px] h-[150px] bg-pink-400/20 rounded-full blur-2xl"
-                data-depth="1.5"
+                className="shape-parallax absolute top-[30%] left-[20%] w-[150px] h-[150px] bg-pink-400/20 rounded-full blur-2xl"
+                data-depth="4.0"
             ></div>
             <div
                 className="shape-parallax absolute top-[40%] left-[80%] w-[180px] h-[180px] bg-indigo-400/30 rounded-full blur-2xl"

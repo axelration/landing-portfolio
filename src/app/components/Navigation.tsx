@@ -11,12 +11,19 @@ export default function Navigation({ activeSection, setActiveSection }: Navigati
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
+  // Scroll animation refs
+  const navContainerRef = useRef<HTMLDivElement>(null);
+  const navTitleRef = useRef<HTMLDivElement>(null);
+  const [titleText, setTitleText] = useState('Navigation');
+  const [isMouseScrolling, setIsMouseScrolling] = useState(false);
+
+  // Navigation items
   const navItems = [
-    { id: 'hero', label: 'Home' },
-    { id: 'about', label: 'About' },
-    { id: 'projects', label: 'Projects' },
-    { id: 'skills', label: 'Skills' },
-    { id: 'contact', label: 'Contact' }
+    { id: 'hero', label: 'Home', desc: '' },
+    { id: 'about', label: 'About', desc: 'Get to know about me' },
+    { id: 'projects', label: 'Projects', desc: 'See my current, past, and upcoming works' },
+    { id: 'skills', label: 'Skills', desc: 'My technical skills and expertise' },
+    { id: 'contact', label: 'Contact', desc: 'Get in touch with me' }
   ];
 
   const scrollToSection = (sectionId: string) => {
@@ -29,8 +36,35 @@ export default function Navigation({ activeSection, setActiveSection }: Navigati
     }
   };
 
+  const scrollText = (text: string) => {
+    if (!navContainerRef.current || !navTitleRef.current) return;
+
+    // Check if the text is already the same
+    if (text === titleText) return;
+
+    // Initial animation for nav title
+    const titleEl = navTitleRef.current;
+    
+    gsap.set(titleEl, { x: 0 });
+
+    if (text === '') {
+      // Pop out effect
+      gsap.fromTo(titleEl,
+        { opacity: 1, x: 0 },
+        { opacity: 0, x: -80, duration: 0.15, ease: "power3.out" }
+      ).then(() => {setTitleText('')});
+    } else {
+      setTitleText(text);
+      // Pop in effect
+      gsap.fromTo(titleEl,
+        { opacity: 0, x: -80 },
+        { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }
+      );
+    }
+  };
+
   useEffect(() => {
-    if (!buttonRef.current) return;
+    if (!navContainerRef.current || !navTitleRef.current) return;
 
     if (activeSection !== "hero") {
       gsap.to(buttonRef.current, {
@@ -49,6 +83,25 @@ export default function Navigation({ activeSection, setActiveSection }: Navigati
         pointerEvents: "none",
       });
     }
+
+    let isScrolling: NodeJS.Timeout;
+
+    // Scroll detection   
+    window.addEventListener("scroll", () => {
+      setIsMouseScrolling(true);
+
+      // Clear timeout if still scrolling
+      clearTimeout(isScrolling);
+
+      // Set a timeout to run after scrolling ends
+      isScrolling = setTimeout(() => { setIsMouseScrolling(false) }, 200); // ms after last scroll event
+    });
+
+    // Reset title when active section not hero and mouse not scrolling through content
+    if (activeSection !== "hero" && isMouseScrolling) {
+      scrollText('')
+    }
+
   }
   ), [activeSection];
 
@@ -58,9 +111,9 @@ export default function Navigation({ activeSection, setActiveSection }: Navigati
       <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-blue-500/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center">
-              <div className="text-2xl font-semibold text-blue-400 font-['Inter']">
-                Portfolio
+            <div ref={navContainerRef} className="overflow-hidden max-w-full">
+              <div ref={navTitleRef} className="whitespace-nowrap text-2xl font-semibold text-blue-400 font-['Inter']">
+                {titleText}
               </div>
             </div>
 
@@ -70,6 +123,7 @@ export default function Navigation({ activeSection, setActiveSection }: Navigati
                   <button
                     key={item.id}
                     onClick={() => scrollToSection(item.id)}
+                    onMouseEnter={() => scrollText(item.desc)}
                     className={`px-3 py-2 rounded-md text-sm font-medium transition-colors font-['Inter'] ${activeSection === item.id
                       ? 'bg-blue-600 text-white'
                       : 'text-blue-200 hover:bg-blue-800/50 hover:text-white'
