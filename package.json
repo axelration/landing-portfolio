@@ -7,7 +7,7 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "deploy": "gh-pages -d out -b gh-pages"
+    "deploy": "next build && powershell New-Item -Path out/.nojekyll -ItemType File -Force && gh-pages -d out -b gh-pages"
   },
   "dependencies": {
     "gsap": "^3.13.0",
