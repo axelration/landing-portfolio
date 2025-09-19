@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import ThemeToggle from './ThemeToggle';
 
 interface NavigationProps {
   activeSection: string;
@@ -12,6 +13,7 @@ export default function Navigation({ activeSection, setActiveSection }: Navigati
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   // Scroll animation refs
+  const navRef = useRef<HTMLElement>(null);
   const navContainerRef = useRef<HTMLDivElement>(null);
   const navTitleRef = useRef<HTMLDivElement>(null);
   const [titleText, setTitleText] = useState('Navigation');
@@ -44,7 +46,7 @@ export default function Navigation({ activeSection, setActiveSection }: Navigati
 
     // Initial animation for nav title
     const titleEl = navTitleRef.current;
-    
+
     gsap.set(titleEl, { x: 0 });
 
     if (text === '') {
@@ -52,7 +54,7 @@ export default function Navigation({ activeSection, setActiveSection }: Navigati
       gsap.fromTo(titleEl,
         { opacity: 1, x: 0 },
         { opacity: 0, x: -80, duration: 0.15, ease: "power3.out" }
-      ).then(() => {setTitleText('')});
+      ).then(() => { setTitleText('') });
     } else {
       setTitleText(text);
       // Pop in effect
@@ -66,6 +68,7 @@ export default function Navigation({ activeSection, setActiveSection }: Navigati
   useEffect(() => {
     if (!navContainerRef.current || !navTitleRef.current) return;
 
+    // Animate scroll to top button based on active section
     if (activeSection !== "hero") {
       gsap.to(buttonRef.current, {
         y: 0,
@@ -82,7 +85,7 @@ export default function Navigation({ activeSection, setActiveSection }: Navigati
         ease: "power3.in",
         pointerEvents: "none",
       });
-    }
+    };
 
     let isScrolling: NodeJS.Timeout;
 
@@ -108,7 +111,7 @@ export default function Navigation({ activeSection, setActiveSection }: Navigati
   return (
     <>
       {/* Navigation Bar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-blue-500/20">
+      <nav ref={navRef} className="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-blue-500/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div ref={navContainerRef} className="overflow-hidden max-w-full">
@@ -117,6 +120,7 @@ export default function Navigation({ activeSection, setActiveSection }: Navigati
               </div>
             </div>
 
+            {/* Default navigation */}
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
                 {navItems.map((item) => (
@@ -133,8 +137,13 @@ export default function Navigation({ activeSection, setActiveSection }: Navigati
                   </button>
                 ))}
               </div>
+              {/* Theme changer button */}
+              <div className='fixed flex items-baseline space-x-4 top-4 right-4'>
+                <ThemeToggle />
+              </div>
             </div>
 
+            {/* Mobile menu button */}
             <div className="md:hidden">
               <button
                 onClick={() => setIsOpen(!isOpen)}
@@ -148,6 +157,7 @@ export default function Navigation({ activeSection, setActiveSection }: Navigati
           </div>
         </div>
 
+        {/* Mobile menu nav items */}
         {isOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-slate-800/90">

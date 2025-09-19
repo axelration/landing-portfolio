@@ -1,11 +1,8 @@
+/* S-Loading screen */
 @import "tailwindcss";
-@custom-variant dark (&:is(.dark *));
 
 :root {
   /* Defaults */
-  /* --background: #ffffff;
-  --foreground: #171717; */
-
   --font-size: 16px;
   --background: #ffffff;
   --foreground: oklch(0.145 0 0);
@@ -83,54 +80,16 @@
   --sidebar-ring: oklch(0.439 0 0);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-input-background: var(--input-background);
-  --color-switch-background: var(--switch-background);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
-}
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    border-color: var(--border);
+    outline-color: color-mix(in oklab, var(--ring) 50%, transparent);
   }
 
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--background);
+    color: var(--foreground);
   }
 }
 
@@ -195,7 +154,6 @@
     /* --background: #0a0a0a;
     --foreground: #ededed; */
 
-    --red: #c60111;
     --background: #222222;
     --foreground: #fffff5;
   }
@@ -223,6 +181,55 @@ body {
 * {
   box-sizing: border-box;
   /* Avoid accidental overflow from padding/borders */
+}
+
+
+
+/* Background Effect styles */
+#background-effect {
+  z-index: 0;
+  transition: background 1s ease;
+}
+
+/* .dark #background-effect {
+  background: linear-gradient(135deg, #0a1a2f, #102a44)
+}
+
+.light #background-effect {
+  background: linear-gradient(135deg, #5d7a8c, #7d99a6)
+} */
+
+/* Base gradient (dark theme) */
+#background-effect::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #0a1a2f, #102a44);
+  transition: opacity 1s ease;
+  z-index: -1;
+}
+
+/* Light theme gradient overlay */
+#background-effect::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #5d7a8c, #173b5f);
+  opacity: 0;
+  transition: opacity 1s ease;
+  z-index: -1;
+}
+
+/* background: linear-gradient(135deg, #5d7a8c, #7d99a6); */
+/* background: linear-gradient(135deg, #b3cde4, #d0e1f2); */
+
+/* When light theme is active */
+.light #background-effect::after {
+  opacity: 1;
+}
+
+.light #background-effect::before {
+  opacity: 0;
 }
 
 /* S-Loading screen */
@@ -267,4 +274,101 @@ body {
 .animate-lightMove2 {
   animation: lightMove2 10s ease-in-out infinite;
 }
+
 /* E-Loading Screen */
+
+/* Ripple Effect */
+#ripple-section {
+  position: relative;
+  height: 60vh;
+  /* background: #0a1a2f; */
+  /* dark bg for contrast */
+  overflow: hidden;
+  z-index: 1;
+}
+
+.ripple {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: rgba(164, 229, 251, 0.6);
+  /* light blue */
+  filter: blur(6px);
+  transform: scale(0);
+  /* opacity: 0; */
+}
+
+.ripple-tl {
+  top: 20%;
+  left: 20%;
+}
+
+.ripple-br {
+  bottom: 20%;
+  right: 20%;
+}
+
+.ripple-center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+}
+
+
+/* Scrollbar styles */
+/* For WebKit browsers */
+::-webkit-scrollbar {
+  width: 16px;
+}
+
+/* Width of the scrollbar */
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+/* Track color */
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--muted);
+  border-radius: 8px;
+  border: 4px solid var(--background);
+}
+
+/* Thumb color and border */
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--accent);
+}
+
+/* Thumb hover color */
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted) var(--background);
+}
+
+/* thumb and track colors */
+*::-moz-scrollbar {
+  width: 16px;
+}
+
+/* Width of the scrollbar */
+*::-moz-scrollbar-track {
+  background: var(--background);
+}
+
+/* Track color */
+*::-moz-scrollbar-thumb {
+  background-color: var(--muted);
+  border-radius: 8px;
+  border: 4px solid var(--background);
+}
+
+/* Thumb color and border */
+*::-moz-scrollbar-thumb:hover {
+  background-color: var(--accent);
+}
+
+/* Thumb hover color */

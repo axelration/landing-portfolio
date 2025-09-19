@@ -9,6 +9,7 @@ import ProjectsSection from "@/app/components/ProjectsSection";
 import SkillsSection from "@/app/components/SkillsSection";
 import ContactSection from "@/app/components/ContactSection";
 import AnimatedCircles from "@/app/components/AnimatedCircles";
+import ThemeToggle from "./components/ThemeToggle";
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState('hero');
@@ -77,6 +78,9 @@ export default function Home() {
 
       {/* Navigation */}
       <Navigation activeSection={activeSection} setActiveSection={setActiveSection} />
+
+      {/* Theme Toggle */}
+      <ThemeToggle />
       
       {/* Main Content */}
       <main className="relative z-10 smooth-wrapper">
@@ -90,7 +94,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="relative z-10 py-8 bottom-12 text-center text-blue-300 border-t border-blue-500/20">
         <p className="font-['Inter']" style={{ fontWeight: 300 }}>
-          © 2025 Axelration.site. All rights reserved.
+          © 2025 Axelration.site All rights reserved.
         </p>
       </footer>
     </div>

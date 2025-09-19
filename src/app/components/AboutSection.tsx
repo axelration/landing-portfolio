@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import RippleEffect from "./RippleEffect";
 
 export default function AboutSection() {
   const ref = useRef<HTMLDivElement>(null);
@@ -53,14 +54,15 @@ export default function AboutSection() {
           </div>
 
           <div ref={subtitleRef} className="relative">
-            <div className="w-full h-96 bg-gradient-to-br from-blue-600/20 to-blue-800/20 rounded-lg border border-blue-500/30 flex items-center justify-center">
-              <div className="text-center">
+            <RippleEffect />
+            {/* <div className="w-full h-96 bg-gradient-to-br from-blue-600/20 to-blue-800/20 rounded-lg border border-blue-500/30 flex items-center justify-center"> */}
+              {/* <div className="text-center">
                 <div className="w-32 h-32 bg-blue-500/30 rounded-full mx-auto mb-4 flex items-center justify-center border-2 border-blue-400/50">
                   <div className="w-16 h-16 bg-blue-400/40 rounded-full"></div>
                 </div>
                 <p className="text-blue-200 font-['Inter']" style={{ fontWeight: 300 }}>Profile Image</p>
-              </div>
-            </div>
+              </div> */}
+            {/* </div> */}
           </div>
         </div>
       </div>
